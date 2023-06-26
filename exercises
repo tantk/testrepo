@@ -1,0 +1,116 @@
+//9
+int is_lowercase(char c)
+{
+    return (97 <= c && c <= 122);
+}
+
+int is_uppercase(char c)
+{
+    return (65 <= c && c <= 90);
+}
+
+int is_numeric(char c)
+{
+    return (48 <= c && c <= 57);
+}
+
+void capital(int st, int ed, char *str)
+{
+    char *ptr;
+
+    ptr = str + st;
+    if (is_lowercase(*ptr))
+    {
+        *ptr -= 32;
+        ptr++;
+    }
+    else if (is_uppercase(*ptr))
+        ptr++;
+    while (st <= ed)
+    {
+        if (is_uppercase(*ptr))
+            *ptr += 32;
+        st++;
+        ptr++;
+    }
+}
+
+char *ft_strcapitalize(char *str)
+{
+    int start = 0;
+    int end = 0;
+    char *ptr;
+    ptr = str;
+    while (*str)
+    {
+        end = start;
+        while(is_lowercase(*str) || is_numeric(*str)|| is_uppercase(*str))
+        {
+            end++;
+            str++;
+        }
+        capital(start,end,ptr);
+        str++;
+        start = end + 1;
+    }
+    return ptr;
+}
+
+//10
+unsigned int str_len(char *str)
+{
+    unsigned int i;
+    i = 0;
+    while(*str)
+    {
+        i++;
+        str++;
+    }
+    return i;
+}
+
+unsigned int ft_strlcpy(char *dest,char *src, unsigned int size)
+{
+    unsigned int src_len;
+    unsigned int counter = 0;
+
+
+    src_len = str_len(src);
+    while (counter < (size - 1) && counter < src_len)
+    {
+        dest[counter] = src[counter];
+        counter++;
+    }
+    dest[counter] = '\0';
+    return src_len;
+}
+
+
+//11
+
+#include <unistd.h>
+
+void    ft_putchar(char c)
+{
+    write(1, &c, 1);
+}
+
+void display_hex(int n){
+    char str[] = "0123456789abcdef";
+    ft_putchar((char)92);
+    ft_putchar(str[n/16]);
+    ft_putchar(str[n%16]);
+}
+
+void ft_putstr_non_printable(char *str){
+
+        while (*str != '\0'){
+                char c = *str;
+                if (32 <= c && c <= 126){
+                        ft_putchar(c);
+                }else{
+            display_hex(c);
+                }
+        str++;
+        }
+}
